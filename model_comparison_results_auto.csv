@@ -1,0 +1,5 @@
+,Accuracy,Precision,Recall,F1,ROC-AUC
+RandomForest,1.0,0.0,0.0,0.0,
+XGBoost,1.0,0.0,0.0,0.0,
+ANN,1.0,0.0,0.0,0.0,
+LSTM,0.9953437938512565,0.0,0.0,0.0,
