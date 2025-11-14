@@ -54,8 +54,15 @@ print("-" * 65)
 
 # 🏆 Best model based on F1-score
 df = pd.DataFrame(results)
-best_model = df.loc[df['F1'].idxmax()]
-print(f"\n🏆 Best Model: {best_model['Model']} (based on highest F1-Score)\n")
+
+max_f1 = df['F1'].max()                # highest F1 score
+best_models = df[df['F1'] == max_f1]   # all models with that score
+
+print("\n🏆 Best Model(s) Based on F1-Score:")
+for _, row in best_models.iterrows():
+    print(f"➡️  {row['Model']} (F1 = {row['F1']})")
+print()
+
 
 # 🚀 Optional: Ensemble Voting
 from sklearn.ensemble import VotingClassifier
@@ -83,4 +90,18 @@ print("\n📘 Ensemble Model Performance:\n")
 print(classification_report(y_test, ensemble_pred, digits=3))
 
 ensemble_f1 = round(f1_score(y_test, ensemble_pred, zero_division=0), 3)
-print(f" Random Forest remains best with F1 = {best_model['F1']}, Ensemble F1 = {ensemble_f1}\n")
+
+# ---- FIXED OUTPUT MESSAGE ----
+print("🏅 Best Individual Model(s):")
+for _, row in best_models.iterrows():
+    print(f"   → {row['Model']} (F1 = {row['F1']})")
+
+print(f"\n🤖 Ensemble Model F1-Score: {ensemble_f1}")
+
+# Interpretation
+if ensemble_f1 > max_f1:
+    print("\n✅ Ensemble model outperforms all individual models.\n")
+elif ensemble_f1 == max_f1:
+    print("\n⚖️  Ensemble model performs equal to the best individual model(s).\n")
+else:
+    print("\n❌ Ensemble model performs worse than the best individual model(s).\n")
